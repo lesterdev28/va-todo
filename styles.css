@@ -97,7 +97,7 @@ input.task-checkbox:checked::after {
 
 #container {
     width: 100%;
-    max-width: 500px;
+    max-width: 370px;
     border: 1px solid #5f9341;
     padding: 15px;
     border-radius: 10px;
