@@ -1,0 +1,115 @@
+body {
+    margin: 0;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    min-width: 400px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1 {
+    font-family: 'Verdana', sans-serif;
+    color: #5f9341;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #5f9341;
+    margin-bottom: 4px;
+    border-radius: 5px;
+}
+
+button {
+    background: #5f9341;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+ul {
+    margin-top: 20px;
+    list-style-type: none;
+    padding: 0;
+    
+}
+
+li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #5f93414d;
+    font-size: 14px;
+}
+
+li span {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+a {
+    color: #5f9341;
+}
+
+.completed {
+    text-decoration: line-through;
+    font-style: italic;
+    color: gray;
+}
+
+/* Hide the default checkbox */
+input.task-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 10px;
+    border: 2px solid ;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    color: #5f93414d;
+}
+
+/* Style the checked state */
+input.task-checkbox:checked {
+    background-color: #5f9341;;
+    border: solid #5f9341;
+}
+
+/* Add a checkmark */
+input.task-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+#container {
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #5f9341;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.delete-btn {
+    width: 20px; 
+    height: 20px; 
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.delete-btn:hover {
+    opacity: 0.5;
+}
