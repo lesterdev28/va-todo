@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 10px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    min-width: 400px;
+    min-width: 500px;
 }
 
 h1 {
@@ -94,7 +94,7 @@ input.task-checkbox:checked::after {
 
 #container {
     width: 100%;
-    max-width: 370px;
+    max-width: 468px;
     border: 1px solid #5f9341;
     padding: 15px;
     border-radius: 10px;
