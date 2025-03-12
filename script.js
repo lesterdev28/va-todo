@@ -1,13 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
     const inputBtn = document.getElementById("input-btn");
+    const clearCompletedBtn = document.getElementById("clear-completed-btn"); // Add this line
+    const checkbox = document.getElementById("checkbox");
     const inputEl = document.getElementById("input-el");
     const ulEl = document.getElementById("ul-el");
 
-    // Load tasks from localStorage
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     tasks.forEach(task => {
         addTaskToDOM(task.text, task.completed);
     });
+
+    toggleClearCompletedBtn();
+
+    const darkMode = localStorage.getItem("darkMode");
+    if (darkMode === "enabled") {
+        document.body.classList.add("dark-mode");
+        checkbox.checked = true;
+    }
 
     inputBtn.addEventListener("click", function() {
         if (inputEl.value.trim() !== "") {
@@ -19,6 +28,31 @@ document.addEventListener("DOMContentLoaded", function() {
             tasks.push(task);
             localStorage.setItem("tasks", JSON.stringify(tasks));
             inputEl.value = "";
+            toggleClearCompletedBtn();
+        }
+    });
+
+    clearCompletedBtn.addEventListener("click", function() { // Add this function
+        const completedTasks = document.querySelectorAll(".completed");
+        completedTasks.forEach(task => {
+            const checkbox = task.querySelector(".task-checkbox");
+            checkbox.checked = false;
+            task.classList.remove("completed");
+            const taskText = task.querySelector("span").textContent;
+            const index = tasks.findIndex(t => t.text === taskText);
+            if (index > -1) {
+                tasks[index].completed = false;
+            }
+        });
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    });
+
+    checkbox.addEventListener("change", function() {
+        document.body.classList.toggle("dark-mode");
+        if (document.body.classList.contains("dark-mode")) {
+            localStorage.setItem("darkMode", "enabled");
+        } else {
+            localStorage.setItem("darkMode", "disabled");
         }
     });
 
@@ -62,11 +96,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 tasks.splice(index, 1);
                 localStorage.setItem("tasks", JSON.stringify(tasks));
             }
+            toggleClearCompletedBtn();
         });
 
         li.appendChild(checkbox);
         li.appendChild(taskTextEl);
         li.appendChild(deleteBtn);
         ulEl.appendChild(li);
+    }
+    function toggleClearCompletedBtn() {
+        if (tasks.length > 0) {
+            clearCompletedBtn.style.display = "block";
+        } else {
+            clearCompletedBtn.style.display = "none";
+        }
     }
 });
