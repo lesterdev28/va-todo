@@ -8,13 +8,17 @@
 </head>
 <body>
     <div id="container">
+        <div class="container">
+            <input type="checkbox" name="checkbox" id="checkbox" />
+            <label for="checkbox" class="label"></label>
+        </div>
         <h1>Today's Todo List</h1>
         <input type="text" id="input-el" placeholder="What task do you want to add today?">
         <button id="input-btn">ADD TASK</button>
         <div class="list">
-        <ul id="ul-el">
-        </ul>
+            <ul id="ul-el"></ul>
         </div>
+        <button id="clear-completed-btn" class="clear-btn" style="display: none;">ALL TASKS COMPLETED</button>
     </div>
     <script src="script.js"></script>
 </body>
