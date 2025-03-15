@@ -104,21 +104,21 @@ a {
 input.task-checkbox {
     appearance: none;
     -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     border: 2px solid var(--checkbox-border);
     border-radius: 50%;
     position: relative;
     cursor: pointer;
 }
 
-/* Style the checked state */
+
 input.task-checkbox:checked {
     background-color: var(--checkbox-checked-background);
     border: 2px solid var(--checkbox-checked-background);
 }
 
-/* Add a checkmark */
+
 input.task-checkbox:checked::after {
     content: '';
     position: absolute;
