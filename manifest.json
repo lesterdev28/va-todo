@@ -13,7 +13,7 @@
         "default_icon": "images/valogo.png"
     },
     "background": {
-        "service_worker": "firebase-app.js"
+        "service_worker": "firebase.js"
     },
     "manifest_version": 3,
     "content_security_policy": {

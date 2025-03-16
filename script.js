@@ -1,12 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, remove, push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+import { database } from "./firebase-init.js";
+import { ref, set, get, remove, push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
-const firebaseConfig = {
-    databaseURL: "https://va-to-do-default-rtdb.asia-southeast1.firebasedatabase.app/"
-};
-
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
 const tasksRef = ref(database, "tasks");
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -31,12 +25,14 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error(error);
     });
 
+    // Set dark mode based on local storage
     const darkMode = localStorage.getItem("darkMode");
     if (darkMode === "enabled") {
         document.body.classList.add("dark-mode");
         checkbox.checked = true;
     }
 
+    // Add task
     inputBtn.addEventListener("click", function() {
         if (inputEl.value.trim() !== "") {
             const task = {
@@ -54,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // Clear completed tasks
     clearCompletedBtn.addEventListener("click", function() {
         const completedTasks = document.querySelectorAll(".completed");
         completedTasks.forEach(task => {
@@ -70,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
+    // Toggle dark mode
     checkbox.addEventListener("change", function() {
         document.body.classList.toggle("dark-mode");
         if (document.body.classList.contains("dark-mode")) {
