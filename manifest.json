@@ -17,6 +17,6 @@
     },
     "manifest_version": 3,
     "content_security_policy": {
-        "extension_pages": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com https://www.googletagmanager.com; object-src 'self'"
+        "extension_pages": "script-src 'self' https://*.firebaseio.com https://www.googleapis.com https://www.googletagmanager.com; object-src 'self'"
     }
 }
