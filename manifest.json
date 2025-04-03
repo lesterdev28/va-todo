@@ -1,5 +1,7 @@
 {
-    "version": "1.3",
+  LocalStorage-Branch
+    "manifest_version": 3,
+    "version": "1.5",
     "name": "VA To-Do",
     "description": "A simple to-do list app designed for Virtual Assistants to stay organized and productive.",
     "permissions": ["activeTab", "tabs", "allUrls"],
