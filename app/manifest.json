@@ -4,13 +4,17 @@
     "name": "VA To-Do",
     "description": "A simple to-do list app designed for Virtual Assistants to stay organized and productive.",
     "permissions": ["storage"],
+    "web_accessible_resources": [{
+        "resources": ["assets/*"],
+        "matches": ["<all_urls>"]
+    }],
     "icons": {
-        "16": "images/valogo.png",
-        "48": "images/valogo.png",
-        "128": "images/valogo.png"
+        "16": "assets/valogo.png",
+        "48": "assets/valogo.png",
+        "128": "assets/valogo.png"
     },
     "action": {
         "default_popup": "index.html",
-        "default_icon": "images/valogo.png"
+        "default_icon": "assets/valogo.png"
     }
-}
+} 
