@@ -7,7 +7,7 @@
     --checkbox-border: rgba(108, 92, 231, 0.5);
     --checkbox-checked-background: #6c5ce7;
     --completed-text-color: #a0a0a0;
-    --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --container-shadow: 0 10px 30px rgba(0, 0, 0, 0.626);
     --delete-btn-color: rgba(253, 121, 168, 0.2);
     --delete-hover-color: rgba(253, 121, 168, 0.8);
     --input-background: #f8f9fa;
@@ -173,8 +173,8 @@ a {
 input.task-checkbox {
     appearance: none;
     -webkit-appearance: none;
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     border: 2px solid var(--checkbox-border);
     border-radius: 50%;
     position: relative;
@@ -213,7 +213,7 @@ input.task-checkbox:checked::after {
 
 #container {
     width: 100%;
-    max-width: 480px;
+    box-sizing: border-box;
     border: none;
     padding: 25px;
     border-radius: 20px;
@@ -657,4 +657,32 @@ li.completed .task-text {
 
 .form-actions button:hover {
     opacity: 0.9;
+}
+
+/* Fix Font Awesome font paths for local files */
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url("../assets/fontawesome/webfonts/fa-solid-900.woff2") format("woff2"), 
+       url("../assets/fontawesome/webfonts/fa-solid-900.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("../assets/fontawesome/webfonts/fa-regular-400.woff2") format("woff2"),
+       url("../assets/fontawesome/webfonts/fa-regular-400.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'Font Awesome 6 Brands';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("../assets/fontawesome/webfonts/fa-brands-400.woff2") format("woff2"),
+       url("../assets/fontawesome/webfonts/fa-brands-400.ttf") format("truetype");
 } 

@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Use local Font Awesome instead of CDN -->
+    <link rel="stylesheet" href="assets/fontawesome/all.min.css">
     <title>VA To-Do</title>
-    <!-- Ensure modules work in Chrome Extensions -->
-    <script>
-        // This helps check if we're running in a Chrome extension context
-        window.isExtension = (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id) ? true : false;
-        console.log("Running as extension:", window.isExtension);
-    </script>
+    <!-- Use defer to ensure script loads after HTML parsing -->
+    <script src="utils/init.js" defer></script>
 </head>
 <body>
     <div id="container">
@@ -69,14 +66,7 @@
         </div>
     </div>
     
-    <!-- Add console error logging to debug -->
-    <script>
-        window.addEventListener('error', function(e) {
-            console.log('Error occurred:', e.error);
-            alert('An error occurred: ' + e.error.message);
-        });
-    </script>
-    <!-- Use type="module" for ES6 module imports -->
-    <script type="module" src="app.js"></script>
+    <!-- Use type="module" for ES6 module imports and defer to ensure it loads after HTML parsing -->
+    <script type="module" src="app.js" defer></script>
 </body>
 </html> 

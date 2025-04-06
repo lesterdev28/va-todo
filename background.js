@@ -1,1 +1,0 @@
-importScripts('firebase-init.js');
