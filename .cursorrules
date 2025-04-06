@@ -1,0 +1,72 @@
+# VA To-Do Chrome Extension
+
+## Project Overview
+VA To-do is a simple note-taking Chrome extension for Virtual Assistants to organize their day-to-day schedule.
+
+## Technical Stack
+- Platform: Chrome extension
+- Frontend: HTML5, CSS3, JavaScript (vanilla)
+
+## Code Generation Rules
+
+### 1. Project Structure
+- Maintain the established modular folder structure
+- Components in `/app/components`
+- Services in `/app/services`
+- Styles in `/app/styles`
+- Assets in `/app/assets`
+- Use semantic file and folder names
+
+### 2. Code Style
+- Use 2-space indentation consistently
+- Keep line length below 100 characters
+- Use kebab-case for file names
+- Use camelCase for variables and functions
+- Use PascalCase for class names
+
+### 3. Component Guidelines
+- Use semantic HTML tags
+- Ensure components are responsive and accessible
+- Follow the established component pattern (ES6 classes)
+- Keep components focused on a single responsibility
+- Use event delegation when appropriate
+
+### 4. State Management
+- Use the StorageService for persistent data
+- Maintain a consistent state update pattern
+- Use custom events for component communication
+
+### 5. Security Guidelines
+- Validate all user inputs
+- Use Chrome storage API safely
+- Follow extension security best practices
+- Request minimal permissions
+
+### 6. Performance Optimization
+- Minimize DOM operations
+- Use efficient selectors
+- Optimize event listeners
+
+### 7. Documentation
+- Document all components, classes, and functions
+- Maintain the README with any new features or changes
+- Keep code comments relevant and helpful
+
+## Best Practices
+
+### 1. Code Quality
+- Write reusable, readable, and clean code
+- Avoid deeply nested logic
+- Follow DRY principles
+- Modularize code into helpers/utils
+
+### 2. Accessibility
+- Use semantic HTML tags
+- Add appropriate ARIA attributes
+- Ensure keyboard navigation
+- Maintain good color contrast
+
+### 3. Extension-specific
+- Follow Chrome extension best practices
+- Use background scripts only when necessary
+- Handle browser events appropriately 

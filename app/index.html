@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>VA To-Do</title>
+    <!-- Ensure modules work in Chrome Extensions -->
+    <script>
+        // This helps check if we're running in a Chrome extension context
+        window.isExtension = (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id) ? true : false;
+        console.log("Running as extension:", window.isExtension);
+    </script>
+</head>
+<body>
+    <div id="container">
+        <div class="header-container">
+            <h1><i class="fas fa-tasks"></i> Today's Tasks</h1>
+            <div class="theme-toggle">
+                <i class="fas fa-sun"></i>
+                <input type="checkbox" name="checkbox" id="checkbox" />
+                <label for="checkbox" class="label"></label>
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+        
+        <div class="client-management">
+            <div class="client-selector-container">
+                <div class="client-actions">
+                    <button id="add-client-btn" title="Add Client"><i class="fas fa-user-plus"></i></button>
+                    <button id="remove-client-btn" title="Remove Current Client"><i class="fas fa-user-minus"></i></button>
+                </div>
+                <label for="client-selector"></label>
+                <select id="client-selector"></select>
+            </div>
+        </div>
+        
+        <div class="input-container">
+            <input type="text" id="input-el" placeholder="What would you like to accomplish today?" autofocus>
+            <button id="add-btn"><i class="fas fa-plus"></i> Add Task</button>
+        </div>
+        
+        <div class="list">
+            <ul id="ul-el"></ul>
+        </div>
+        
+        <!-- Button is hidden by default and only shows when tasks are completed -->
+        <button id="clear-completed-btn" class="clear-btn" style="display: none;">
+            <i class="fas fa-check-circle"></i> Clear Completed Tasks
+        </button>
+        
+        <!-- Modal for adding new client -->
+        <div id="add-client-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Add New Client</h2>
+                <form id="add-client-form">
+                    <div class="form-group">
+                        <label for="client-name">Client Name:</label>
+                        <input type="text" id="client-name" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancel-client-btn">Cancel</button>
+                        <button type="submit">Add Client</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add console error logging to debug -->
+    <script>
+        window.addEventListener('error', function(e) {
+            console.log('Error occurred:', e.error);
+            alert('An error occurred: ' + e.error.message);
+        });
+    </script>
+    <!-- Use type="module" for ES6 module imports -->
+    <script type="module" src="app.js"></script>
+</body>
+</html> 
