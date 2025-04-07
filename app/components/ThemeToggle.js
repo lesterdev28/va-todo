@@ -1,18 +1,18 @@
 import StorageService from '../services/StorageService.js';
 
-class ThemeToggler {
+class ThemeToggle {
   constructor() {
-    console.log('Initializing ThemeToggler');
+    console.log('Initializing ThemeToggle');
     this.checkbox = document.getElementById('checkbox');
     
     if (!this.checkbox) {
-      console.error('Theme toggler checkbox not found!');
+      console.error('Theme toggle checkbox not found!');
       return;
     }
     
     this.initializeTheme();
     this.setupEventListeners();
-    console.log('ThemeToggler initialized successfully');
+    console.log('ThemeToggle initialized successfully');
   }
 
   initializeTheme() {
@@ -61,4 +61,4 @@ class ThemeToggler {
   }
 }
 
-export default ThemeToggler; 
+export default ThemeToggle; 

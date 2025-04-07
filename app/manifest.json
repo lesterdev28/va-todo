@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
-  "version": "1.6",
+  "version": "1.7",
   "name": "VA To-Do",
   "description": "A simple to-do list app designed for Virtual Assistants to stay organized and productive.",
-  "permissions": ["storage"],
+  "permissions": ["storage", "tabs"],
+  "host_permissions": ["https://api.openai.com/*"],
   "web_accessible_resources": [{
     "resources": ["assets/*"],
     "matches": ["<all_urls>"]
@@ -18,6 +19,6 @@
     "default_icon": "assets/VATo-do2.png"
   },
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'"
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://api.openai.com"
   }
 }

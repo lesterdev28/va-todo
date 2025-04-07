@@ -1,6 +1,9 @@
 import StorageService from '../services/StorageService.js';
 
 class ClientManager {
+  // Define a constant for maximum clients
+  static MAX_CLIENTS = 3;
+  
   constructor() {
     this.clients = [];
     this.activeClientId = null;
@@ -53,6 +56,10 @@ class ClientManager {
     }
   }
   
+  getActiveClientId() {
+    return this.activeClientId;
+  }
+  
   loadClients() {
     this.clients = StorageService.getClients();
     this.activeClientId = StorageService.getActiveClient();
@@ -103,16 +110,31 @@ class ClientManager {
       const option = document.createElement('option');
       option.value = client.id;
       
-      // Add indicator for default client
-      if (client.name === 'Personal' || client.isDefault) {
-        option.textContent = `${client.name} (Default)`;
-      } else {
-        option.textContent = client.name;
-      }
+      // Remove the "(Default)" indicator for Personal client
+      option.textContent = client.name;
       
       option.selected = client.id === this.activeClientId;
       this.clientSelector.appendChild(option);
     });
+    
+    // Update client counter in the UI to not count Personal as a client
+    const clientCount = this.clients.filter(client => !(client.name === 'Personal' || client.isDefault)).length;
+    const clientCounterElement = document.getElementById('client-counter');
+    if (clientCounterElement) {
+      clientCounterElement.textContent = `${clientCount}/${ClientManager.MAX_CLIENTS} clients`;
+    } else {
+      // Create a client counter element if it doesn't exist
+      const clientCounter = document.createElement('span');
+      clientCounter.id = 'client-counter';
+      clientCounter.className = 'client-counter';
+      clientCounter.textContent = `${clientCount}/${ClientManager.MAX_CLIENTS} clients`;
+      
+      // Insert after client selector
+      const clientSelectorContainer = document.querySelector('.client-selector-container');
+      if (clientSelectorContainer) {
+        clientSelectorContainer.appendChild(clientCounter);
+      }
+    }
     
     // Update remove button state
     this.updateRemoveButtonState();
@@ -179,6 +201,15 @@ class ClientManager {
   }
   
   showAddClientDialog() {
+    // Calculate actual client count (excluding Personal)
+    const clientCount = this.clients.filter(client => !(client.name === 'Personal' || client.isDefault)).length;
+    
+    // Check if client limit has been reached
+    if (clientCount >= ClientManager.MAX_CLIENTS) {
+      alert(`You can only add a maximum of ${ClientManager.MAX_CLIENTS} clients. Please remove an existing client before adding a new one.`);
+      return;
+    }
+
     // Reset the form
     this.addClientForm.reset();
     
@@ -190,10 +221,21 @@ class ClientManager {
   }
   
   closeModal() {
-    this.modal.classList.remove('show');
+    if (this.modal) {
+      this.modal.classList.remove('show');
+    }
   }
   
   addClient(clientName) {
+    // Calculate actual client count (excluding Personal)
+    const clientCount = this.clients.filter(client => !(client.name === 'Personal' || client.isDefault)).length;
+    
+    // Check if client limit has been reached
+    if (clientCount >= ClientManager.MAX_CLIENTS) {
+      alert(`You can only add a maximum of ${ClientManager.MAX_CLIENTS} clients. Please remove an existing client before adding a new one.`);
+      return;
+    }
+
     // Check if client name is "Personal" (case insensitive)
     if (clientName.toLowerCase() === 'personal') {
       alert('Cannot create another client named "Personal" as it is reserved for the default client.');
@@ -233,10 +275,6 @@ class ClientManager {
   
   generateId() {
     return 'client_' + Date.now() + Math.random().toString(36).substring(2, 9);
-  }
-  
-  getActiveClientId() {
-    return this.activeClientId;
   }
   
   removeClient() {
@@ -327,6 +365,110 @@ class ClientManager {
       this.removeClientBtn.disabled = false;
       this.removeClientBtn.style.display = 'flex';
     }
+    
+    // Calculate actual client count (excluding Personal)
+    const clientCount = this.clients.filter(client => !(client.name === 'Personal' || client.isDefault)).length;
+    
+    // Update Add Client button state - disable if client limit reached
+    if (clientCount >= ClientManager.MAX_CLIENTS) {
+      this.addClientBtn.classList.add('disabled');
+      this.addClientBtn.disabled = true;
+      this.addClientBtn.title = `Maximum of ${ClientManager.MAX_CLIENTS} clients reached`;
+    } else {
+      this.addClientBtn.classList.remove('disabled');
+      this.addClientBtn.disabled = false;
+      this.addClientBtn.title = "Add Client";
+    }
+  }
+  
+  showPremiumUpgradePrompt() {
+    // Close the add client modal if it's open
+    this.closeModal();
+    
+    // Create upgrade modal if it doesn't exist
+    let upgradeModal = document.getElementById('upgrade-modal');
+    
+    if (!upgradeModal) {
+      upgradeModal = document.createElement('div');
+      upgradeModal.id = 'upgrade-modal';
+      upgradeModal.className = 'modal';
+      
+      const modalContent = document.createElement('div');
+      modalContent.className = 'modal-content upgrade-modal-content';
+      
+      const closeBtn = document.createElement('span');
+      closeBtn.className = 'close-modal';
+      closeBtn.innerHTML = '&times;';
+      closeBtn.addEventListener('click', () => {
+        upgradeModal.classList.remove('show');
+      });
+      
+      const header = document.createElement('h2');
+      header.textContent = 'Upgrade to Premium';
+      
+      const icon = document.createElement('div');
+      icon.className = 'upgrade-icon';
+      icon.innerHTML = '<i class="fas fa-crown"></i>';
+      
+      const message = document.createElement('p');
+      message.textContent = `You have reached the limit of ${ClientManager.MAX_CLIENTS} clients in the free version.`;
+      
+      const benefitsList = document.createElement('ul');
+      benefitsList.className = 'benefits-list';
+      
+      const benefits = [
+        'Unlimited clients',
+        'Advanced task categories',
+        'Priority support',
+        'Cloud backup'
+      ];
+      
+      benefits.forEach(benefit => {
+        const item = document.createElement('li');
+        item.innerHTML = `<i class="fas fa-check"></i> ${benefit}`;
+        benefitsList.appendChild(item);
+      });
+      
+      const upgradeBtn = document.createElement('button');
+      upgradeBtn.className = 'upgrade-btn';
+      upgradeBtn.innerHTML = '<i class="fas fa-arrow-up"></i> Upgrade Now';
+      upgradeBtn.addEventListener('click', () => {
+        alert('This would redirect to the upgrade page in a real application.');
+        upgradeModal.classList.remove('show');
+      });
+      
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'cancel-upgrade-btn';
+      cancelBtn.textContent = 'Maybe Later';
+      cancelBtn.addEventListener('click', () => {
+        upgradeModal.classList.remove('show');
+      });
+      
+      const actionButtons = document.createElement('div');
+      actionButtons.className = 'upgrade-actions';
+      actionButtons.appendChild(upgradeBtn);
+      actionButtons.appendChild(cancelBtn);
+      
+      modalContent.appendChild(closeBtn);
+      modalContent.appendChild(header);
+      modalContent.appendChild(icon);
+      modalContent.appendChild(message);
+      modalContent.appendChild(benefitsList);
+      modalContent.appendChild(actionButtons);
+      
+      upgradeModal.appendChild(modalContent);
+      document.body.appendChild(upgradeModal);
+      
+      // Close when clicking outside the modal
+      window.addEventListener('click', (e) => {
+        if (e.target === upgradeModal) {
+          upgradeModal.classList.remove('show');
+        }
+      });
+    }
+    
+    // Show the upgrade modal
+    upgradeModal.classList.add('show');
   }
 }
 

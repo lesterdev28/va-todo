@@ -1,7 +1,8 @@
 import TodoList from './components/TodoList.js';
-import ThemeToggler from './components/ThemeToggler.js';
 import ClientManager from './components/ClientManager.js';
 import StorageService from './services/StorageService.js';
+import YuukiAssistant from './components/AIAssistant.js';
+import ThemeToggle from './components/ThemeToggle.js';
 
 // Add script loading confirmation
 console.log('App script loaded');
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
   try {
     // Initialize client manager first
     const clientManager = new ClientManager();
+    const themeToggle = new ThemeToggle();
     clientManager.initialize();
     console.log('Client manager initialized successfully');
     
@@ -35,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize components
     const todoList = new TodoList(clientManager);
-    const themeToggler = new ThemeToggler();
+    const yuukiAssistant = new YuukiAssistant();
     
     // Add task event
     addBtn.addEventListener('click', function() {
@@ -69,8 +71,87 @@ document.addEventListener('DOMContentLoaded', function() {
       StorageService.removeClientTasks(clientId);
     });
     
+    // Set up the upgrade to premium button
+    const upgradeBtn = document.getElementById('upgrade-btn');
+    if (upgradeBtn) {
+      upgradeBtn.addEventListener('click', () => {
+        showPremiumUpgradeModal();
+      });
+    }
+    
     console.log('App initialization complete!');
   } catch (error) {
     console.error('Error during app initialization:', error);
   }
-}); 
+});
+
+// Function to show the premium upgrade modal
+function showPremiumUpgradeModal() {
+  // Create modal overlay
+  const modalOverlay = document.createElement('div');
+  modalOverlay.classList.add('modal-overlay');
+  
+  // Create modal container
+  const modalContainer = document.createElement('div');
+  modalContainer.classList.add('premium-modal');
+  
+  // Add modal content
+  modalContainer.innerHTML = `
+    <div class="premium-modal-header">
+      <h2><i class="fas fa-crown"></i> Upgrade to Premium</h2>
+      <button class="close-modal-btn"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="premium-modal-content">
+      <div class="premium-features">
+        <h3>Premium Features</h3>
+        <ul>
+          <li><i class="fas fa-check"></i> Unlimited clients</li>
+          <li><i class="fas fa-check"></i> Advanced task categorization</li>
+          <li><i class="fas fa-check"></i> Priority management</li>
+          <li><i class="fas fa-check"></i> Enhanced analytics</li>
+          <li><i class="fas fa-check"></i> Cloud backup</li>
+        </ul>
+      </div>
+      <div class="pricing-options">
+        <div class="pricing-card">
+          <h4>Monthly</h4>
+          <div class="price">$9.99<span>/month</span></div>
+          <button class="premium-purchase-btn">Get Started</button>
+        </div>
+        <div class="pricing-card recommended">
+          <div class="recommended-badge">Best Value</div>
+          <h4>Annual</h4>
+          <div class="price">$99.99<span>/year</span></div>
+          <div class="savings">Save 17%</div>
+          <button class="premium-purchase-btn">Get Started</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Append modal to the DOM
+  modalOverlay.appendChild(modalContainer);
+  document.body.appendChild(modalOverlay);
+  
+  // Add event listener to close button
+  const closeBtn = modalContainer.querySelector('.close-modal-btn');
+  closeBtn.addEventListener('click', () => {
+    document.body.removeChild(modalOverlay);
+  });
+  
+  // Add event listener to close modal when clicking outside
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) {
+      document.body.removeChild(modalOverlay);
+    }
+  });
+  
+  // Add event listeners to purchase buttons
+  const purchaseBtns = modalContainer.querySelectorAll('.premium-purchase-btn');
+  purchaseBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      alert('This is a demo. In a real application, this would redirect to a payment processor.');
+      document.body.removeChild(modalOverlay);
+    });
+  });
+} 
