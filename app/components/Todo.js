@@ -1,12 +1,23 @@
+// Todo.js - Individual todo item component
+
 class Todo {
   constructor(taskText, completed = false) {
+    console.log("Creating Todo instance:", taskText, completed);
     this.taskText = taskText;
     this.completed = completed;
-    this.element = this.createTodoElement();
-    this.isEditing = false;
+    try {
+      this.element = this.createTodoElement();
+      this.isEditing = false;
+      console.log("Todo element created successfully");
+    } catch (error) {
+      console.error("Error creating Todo element:", error);
+      this.element = null;
+    }
   }
 
+  // Create the DOM element for this todo
   createTodoElement() {
+    console.log("Creating todo element for:", this.taskText);
     const li = document.createElement("li");
 
     // Create checkbox
@@ -21,6 +32,7 @@ class Todo {
     }
 
     checkbox.addEventListener("change", () => {
+      console.log("Checkbox changed:", checkbox.checked);
       if (checkbox.checked) {
         li.classList.add("completed");
       } else {
@@ -35,7 +47,20 @@ class Todo {
           type: "update"
         } 
       });
+      console.log("Dispatching todoStateChanged event:", event.detail);
       document.dispatchEvent(event);
+    });
+    
+    // Add keyboard support for accessibility
+    checkbox.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        checkbox.checked = !checkbox.checked;
+        
+        // Trigger the change event
+        const changeEvent = new Event("change");
+        checkbox.dispatchEvent(changeEvent);
+      }
     });
 
     // Create text span for task
@@ -43,12 +68,12 @@ class Todo {
     taskTextEl.textContent = this.taskText;
     taskTextEl.classList.add("task-text");
 
-    // Create edit button
+    // Create edit button with improved icon
     const editBtn = document.createElement("i");
     editBtn.className = "fas fa-edit edit-btn";
     editBtn.setAttribute("title", "Edit task");
     
-    // Create delete button with Font Awesome icon
+    // Create delete button with improved icon
     const deleteBtn = document.createElement("i");
     deleteBtn.className = "fas fa-trash-alt delete-btn";
     deleteBtn.setAttribute("title", "Delete task");
@@ -170,11 +195,23 @@ class Todo {
   }
 
   getElement() {
+    if (!this.element) {
+      console.warn("Todo element is null, trying to recreate it");
+      try {
+        this.element = this.createTodoElement();
+        if (!this.element) {
+          console.error("Failed to recreate todo element");
+        }
+      } catch (error) {
+        console.error("Error recreating todo element:", error);
+      }
+    }
     return this.element;
   }
 
   update(completed) {
     this.completed = completed;
+    
     const checkbox = this.element.querySelector(".task-checkbox");
     checkbox.checked = completed;
     
@@ -184,6 +221,4 @@ class Todo {
       this.element.classList.remove("completed");
     }
   }
-}
-
-export default Todo; 
+} 

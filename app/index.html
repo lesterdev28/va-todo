@@ -3,74 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/styles.css">
-    <!-- Use local Font Awesome instead of CDN -->
-    <link rel="stylesheet" href="assets/fontawesome/all.min.css">
     <title>VA To-Do</title>
-    <!-- Use defer to ensure script loads after HTML parsing -->
-    <script src="utils/init.js" defer></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/styles.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="assets/fontawesome/all.min.css">
+    <!-- Add Font Awesome CDN as a fallback -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Load error handling script first -->
+    <script src="utils/error-handler.js"></script>
+    <!-- Load init script to set up environment -->
+    <script src="utils/init.js"></script>
 </head>
 <body>
-    <div id="container">
-        <div class="header-container">
-            <h1><i class="fas fa-tasks"></i> Today's Tasks</h1>
-            <div class="header-actions">
-                <button id="upgrade-btn" class="premium-btn" style="display: none"><i class="fas fa-crown"></i> Upgrade</button>
-                <button id="ai-assistant-btn" class="ai-btn" title="Chat with Yuuki" style="display: none"><i class="fas fa-robot"></i></button>
-                <div class="theme-toggle">
-                    <i class="fas fa-sun"></i>
-                    <input type="checkbox" name="checkbox" id="checkbox" />
-                    <label for="checkbox" class="label"></label>
-                    <i class="fas fa-moon"></i>
+    <div class="app-container">
+        <!-- Main Content -->
+        <div id="container" class="main-content">
+            <div class="header-container">
+                <h1><i class="fas fa-tasks"></i> Today's Tasks</h1>
+                <div class="header-actions">
+                    <div class="theme-toggle">
+                        <i class="fas fa-sun"></i>
+                        <input type="checkbox" name="checkbox" id="checkbox" />
+                        <label for="checkbox" class="label"></label>
+                        <i class="fas fa-moon"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="client-management">
-            <div class="client-selector-container">
-                <div class="client-actions">
-                    <button id="add-client-btn" title="Add Client"><i class="fas fa-user-plus"></i></button>
-                    <button id="remove-client-btn" title="Remove Current Client"><i class="fas fa-user-minus"></i></button>
+            
+            <div class="client-management">
+                <div class="client-selector-container">
+                    <div class="client-actions">
+                        <button id="add-client-btn" title="Add Client"><i class="fas fa-user-plus"></i></button>
+                        <button id="remove-client-btn" title="Remove Current Client"><i class="fas fa-user-minus"></i></button>
+                    </div>
+                    <label for="client-selector"></label>
+                    <select id="client-selector"></select>
                 </div>
-                <label for="client-selector"></label>
-                <select id="client-selector"></select>
             </div>
-        </div>
-        
-        <div class="input-container">
-            <input type="text" id="input-el" placeholder="What would you like to accomplish today?" autofocus>
-            <button id="add-btn"><i class="fas fa-plus"></i> Add Task</button>
-        </div>
-        
-        <div class="list">
-            <ul id="ul-el"></ul>
-        </div>
-        
-        <!-- Button is hidden by default and only shows when tasks are completed -->
-        <button id="clear-completed-btn" class="clear-btn" style="display: none;">
-            <i class="fas fa-check-circle"></i> Clear Completed Tasks
-        </button>
-        
-        <!-- Modal for adding new client -->
-        <div id="add-client-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <h2>Add New Client</h2>
-                <form id="add-client-form">
-                    <div class="form-group">
-                        <label for="client-name">Client Name:</label>
-                        <input type="text" id="client-name" required>
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" id="cancel-client-btn">Cancel</button>
-                        <button type="submit">Add Client</button>
-                    </div>
-                </form>
+            
+            <div class="input-container">
+                <input class="input-el" type="text" id="input-el" placeholder="What would you like to accomplish today?" aria-label="New task input" autofocus>
+                <button id="add-btn" aria-label="Add task"><i class="fas fa-plus"></i> Add Task</button>
+            </div>
+            
+            <div class="list" role="region" aria-label="Task list">
+                <ul id="ul-el" role="list"></ul>
+            </div>
+            
+            <!-- Button is hidden by default and only shows when tasks are completed -->
+            <button id="clear-completed-btn" class="clear-btn" style="display: none;" aria-label="Deselect completed tasks">
+                <i class="fas fa-check-circle"></i> Clear Completed Tasks
+            </button>
+            
+            <!-- Modal for adding new client -->
+            <div id="add-client-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h2>Add New Client</h2>
+                    <form id="add-client-form">
+                        <div class="form-group">
+                            <label for="client-name">Client Name:</label>
+                            <input type="text" id="client-name" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="cancel-client-btn">Cancel</button>
+                            <button type="submit">Add Client</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
     
-    <!-- Use type="module" for ES6 module imports and defer to ensure it loads after HTML parsing -->
-    <script type="module" src="app.js"></script>
+    <!-- Load scripts after DOM is created -->
+    <script src="services/StorageService.js"></script>
+    <script src="components/ThemeToggle.js"></script>
+    <script src="components/Todo.js"></script>
+    <script src="components/ClientManager.js"></script>
+    <script src="components/TodoList.js"></script>
+    <script src="app.js"></script>
 </body>
 </html> 

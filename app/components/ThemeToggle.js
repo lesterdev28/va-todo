@@ -1,4 +1,4 @@
-import StorageService from '../services/StorageService.js';
+// ThemeToggle.js - Handles dark/light mode functionality
 
 class ThemeToggle {
   constructor() {
@@ -59,6 +59,4 @@ class ThemeToggle {
       console.error('Error toggling theme:', error);
     }
   }
-}
-
-export default ThemeToggle; 
+} 

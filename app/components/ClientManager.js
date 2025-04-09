@@ -1,4 +1,4 @@
-import StorageService from '../services/StorageService.js';
+// ClientManager.js - Manages clients for the to-do app
 
 class ClientManager {
   // Define a constant for maximum clients
@@ -470,6 +470,4 @@ class ClientManager {
     // Show the upgrade modal
     upgradeModal.classList.add('show');
   }
-}
-
-export default ClientManager; 
+} 

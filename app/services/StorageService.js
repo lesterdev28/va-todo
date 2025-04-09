@@ -1,3 +1,5 @@
+// StorageService.js - Handles local storage operations
+
 class StorageService {
   static getTasks() {
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -23,12 +25,18 @@ class StorageService {
   
   static getClients() {
     try {
-      const clients = JSON.parse(localStorage.getItem('clients')) || [];
-      console.log('Retrieved clients:', clients);
-      return clients;
-    } catch (error) {
-      console.error('Error retrieving clients:', error);
-      return [];
+      const clientsString = localStorage.getItem('clients');
+      if (!clientsString) {
+        // Return default client if none found
+        const defaultClient = { id: 'client_personal_default', name: 'Personal', isDefault: true };
+        return [defaultClient];
+      }
+      
+      return JSON.parse(clientsString);
+    } catch (e) {
+      console.error('Error parsing clients from storage:', e);
+      const defaultClient = { id: 'client_personal_default', name: 'Personal', isDefault: true };
+      return [defaultClient];
     }
   }
   
@@ -90,21 +98,17 @@ class StorageService {
         return;
       }
       
-      console.log(`Removing tasks for client ${clientId}`);
+      // Get all tasks
       const allTasks = JSON.parse(localStorage.getItem('clientTasks')) || {};
       
-      // Delete the client's tasks
-      if (allTasks[clientId]) {
-        delete allTasks[clientId];
-        localStorage.setItem('clientTasks', JSON.stringify(allTasks));
-        console.log(`Successfully removed tasks for client ${clientId}`);
-      } else {
-        console.log(`No tasks found for client ${clientId}`);
-      }
+      // Remove tasks for the specified client
+      delete allTasks[clientId];
+      
+      // Save updated tasks
+      localStorage.setItem('clientTasks', JSON.stringify(allTasks));
+      console.log(`Removed tasks for client ${clientId}`);
     } catch (error) {
       console.error('Error removing client tasks:', error);
     }
   }
-}
-
-export default StorageService; 
+} 

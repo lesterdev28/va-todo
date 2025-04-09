@@ -1,24 +1,38 @@
 {
   "manifest_version": 3,
-  "version": "1.7",
+  "version": "1.8",
   "name": "VA To-Do",
   "description": "A simple to-do list app designed for Virtual Assistants to stay organized and productive.",
-  "permissions": ["storage", "tabs"],
-  "host_permissions": ["https://api.openai.com/*"],
-  "web_accessible_resources": [{
-    "resources": ["assets/*"],
-    "matches": ["<all_urls>"]
-  }],
+  "permissions": ["storage", "sidePanel"],
   "icons": {
     "16": "assets/VATo-do2.png",
     "48": "assets/VATo-do2.png",
     "128": "assets/VATo-do2.png"
   },
   "action": {
-    "default_popup": "index.html",
-    "default_icon": "assets/VATo-do2.png"
+    "default_icon": {
+      "16": "assets/VATo-do2.png",
+      "48": "assets/VATo-do2.png",
+      "128": "assets/VATo-do2.png"
+    },
+    "default_title": "VA To-Do Task Manager"
+  },
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://api.openai.com"
-  }
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/*",
+        "styles/*"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
